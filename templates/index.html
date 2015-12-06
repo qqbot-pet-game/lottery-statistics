@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Lottery</title>
+    <!-- <link rel="stylesheet" type="text/css" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" type="text/css" href="/static/vendor/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/vendor/css/bootstrap-switch.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/table.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="lottery-add" id="lottery-add">
+                    <button class="btn btn-success btn-add-lottery" id="btn-add-lottery">添加</button>
+                    <div class="lottery-input" id="lottery-input" tabindex="-1">
+                        <span class="lottery-input-item"></span>
+                        <span class="lottery-input-item"></span>
+                        <span class="lottery-input-item"></span>
+                        <span class="lottery-input-item"></span>
+                        <span class="lottery-input-item"></span>
+                        <span class="lottery-input-item"></span>
+                        <span class="lottery-input-item"></span>
+                    </div>
+                    <div class="lottery-input-fake-wrapper">
+                        <input id="lottery-input-fake" class="lottery-input-fake" type="number" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-6">
+                <div id="statistic-spinner" style="text-align: center;">
+                    <span class="icon-spinner center-block sz-120"></span>
+                </div>
+                <div id="statistic-warning" style="text-align: center; display: none;">
+                    <span class="icon-warning center-block sz-80"></span>
+                    <p class="warning-text">暂时无法加载信息，请<a href="javascript:;">点击此处</a>重试</p>
+                </div>
+                <div id="statistic-container" style="display: none;">
+                    <div id="table-collapse" class="table-collapse">
+                        <i class="fa fa-fw fa-angle-up"></i><span>收起</span>
+                    </div>
+                    <div id="table-container"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="lotteries-spinner" style="text-align: center;">
+                    <span class="icon-spinner center-block sz-120"></span>
+                </div>
+                <div id="lotteries-warning" style="text-align: center; display: none;">
+                    <span class="icon-warning center-block sz-80"></span>
+                    <p class="warning-text">暂时无法加载信息，请<a href="javascript:;">点击此处</a>重试</p>
+                </div>
+                <div id="lotteries-container" style="display: none;">
+                    <ul class="lottery-list" id="lottery-list">
+                    </ul>
+                    <div>
+                        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" id="btn-prev">上一页</button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" id="btn-next">下一页</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="dialog-information" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">提示信息</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="" id="dialog-info-text"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="dialog-info-cancel">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="dialog-info-ack">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-sm" id="dialog-loading" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <span class="icon-spinner center-block sz-100 mt-20 mb-20"></span>
+            </div>
+        </div>
+    </div>
+    <!-- <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script> -->
+    <!-- <script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script> -->
+    <script type="text/javascript" src="/static/vendor/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/vendor/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/vendor/js/bootstrap-switch.js"></script>
+    <script type="text/javascript" src="/static/table.js"></script>
+    <script type="text/javascript" src="/static/index.js"></script>
+</body>
+</html>

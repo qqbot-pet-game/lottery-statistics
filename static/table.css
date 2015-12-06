@@ -1,0 +1,29 @@
+table.table td, table.table th {
+  white-space: nowrap;
+}
+table.table th {
+  background-color: #eee;
+  cursor: pointer;
+}
+table.table th:hover {
+  background-color: #efe;
+}
+
+.file-dropbox {
+  border-radius: 7px;
+  border: 2px #ccc dashed;
+  width: 400px;
+  height: 200px;
+}
+.file-dropbox .file-dropbox-content {
+  position: relative;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  margin-top: -20px;
+  top: 50%;
+  font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #999;
+}
