@@ -237,13 +237,12 @@ class Util:
             if timestamp != current_timestamp:
                 current_time += 1
                 current_timestamp = timestamp
-            if place_number_times[place][number] == inf:
-                place_number_times[place][number] = current_time
-                number_place_times[number][place] = current_time
-                if number_times[number] == inf: number_times[number] = current_time
+            if place_number_times[place][number - number_min] == inf:
+                place_number_times[place][number - number_min] = current_time
+                number_place_times[number - number_min][place] = current_time
+                if number_times[number - number_min] == inf: number_times[number - number_min] = current_time
                 left_items -= 1
             if left_items == 0: break
-        print number_times
         self.closeConnection((conn, cur), True)
         return {
             "number_min": number_min,
