@@ -229,7 +229,15 @@ function loadStatistics() {
     $('#statistic-container').hide();
     $('#statistic-spinner').show();
     getStatistics(function(data) {
+        data = data.replace(/Infinity/g, '-1');
         data = JSON.parse(data);
+        for (var number = 0; number < data.number_max - data.number_min + 1; number++) {
+            for (var place = 0; place < data.number_cnt; place++) {
+                if (data.data[place][number] == -1) data.data[place][number] = Infinity;
+            }
+            if (data.data_numbers[number] == -1) data.data_numbers[number] = Infinity;
+        } 
+        console.log(data);
         table_data = [['数字', '小一', '小二', '小三', '小四', '小五', '小六', '大码', '总计']]
         for (var i = 0; i < data.number_max - data.number_min + 1; i++) {
             var row = [i + data.number_min];

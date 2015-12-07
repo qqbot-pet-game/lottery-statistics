@@ -58,6 +58,7 @@ class ApiStatistics:
     def GET(self):
         util = Util()
         result = util.getStatistics()
+        print json.dumps(result)
         if result: return json.dumps(result)
         else: return web.internalerror("")
 

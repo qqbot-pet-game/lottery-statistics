@@ -67,6 +67,7 @@ Table = function(data, opts) {
 				var data_item = data_row[j];
 				var data_text = data_item;
 				if (data_text === undefined || data_text === null) data_text = "";
+				if (data_text == Infinity) data_text = "-";
 				var unitOptions = $.extend({}, Table.defaultOptions.unit, unitOptionsForRow[j]);
 				var tdEl = $('<td>' + data_text + '</td>').data('table-data', data_item).data('table-options', unitOptions);
 				if (unitOptions.fixed === true) tdEl.data('table-fixed', {row:data_idx, col:j});

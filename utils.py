@@ -14,6 +14,8 @@ number_cnt = int(config.get('lottery', 'number_cnt'))
 number_min = int(config.get('lottery', 'number_min'))
 number_max = int(config.get('lottery', 'number_max'))
 
+inf = float('Inf')
+
 """
 number place should be: 
     small: 0, 1, 2, 3, 4, 5
@@ -140,26 +142,18 @@ class Util:
         page_limit = None
         if (not page_start is None) and (not page_end is None): page_limit = page_end - page_start + 1
         lotteries = []
-        print page_limit, page_start
-        print 'SELECT `id` FROM `lottery` ORDER BY `time` DESC {0}'.format(
+        if cur.execute('SELECT `id` FROM `lottery` ORDER BY `time` DESC {0}'.format(
                 '' if (page_limit is None) else ('LIMIT %d OFFSET %d' % (page_limit, page_start))
-                )
-        result = cur.execute('SELECT `id` FROM `lottery` ORDER BY `time` DESC {0}'.format(
-                '' if (page_limit is None) else ('LIMIT %d OFFSET %d' % (page_limit, page_start))
-                ))
-        print result
-        if result:
+                )):
             # self.closeConnection((conn, cur), False)
             # return None
             pass
         while True:
             record = cur.fetchone()
-            print record
             if record is None: break
             item = self.getLottery(_id = int(record[0]))
             if item is None: continue
             lotteries.append(item)
-            print "one"
         self.closeConnection((conn, cur), True)
         return lotteries
 
@@ -227,20 +221,29 @@ class Util:
     def getStatistics(self, time_start = None, time_end = None):
         (conn, cur) = self.getConnection()
         where_clause = '1'
-        if not time_start is None: where_clause += (" AND `time` >= %d" % time_start)
-        if not time_end is None: where_clause += (" AND `time` < %d" % time_end)
-        place_number_times = [[0 for ii in range(number_min, number_max + 1)] for i in range(0,number_cnt)]
-        number_place_times = [[0 for ii in range(0,number_cnt)] for i in range(number_min, number_max + 1)]
-        number_times = [0 for i in range(number_min, number_max + 1)]
-        for place in range(0,number_cnt):
-            for number in range(0, number_max - number_min + 1):
-                if cur.execute('SELECT COUNT(1) FROM `lottery_number` WHERE {0} AND `number` = {1} AND `place` = {2}'.format(where_clause, number + number_min, place)):
-                    time = cur.fetchone()[0]
-                    if time:
-                        place_number_times[place][number] = time
-                        number_place_times[number][place] = time
-        for number in range(0, number_max - number_min + 1):
-            number_times[number] = sum(number_place_times[number])
+        place_number_times = [[inf for ii in range(number_min, number_max + 1)] for i in range(0,number_cnt)]
+        number_place_times = [[inf for ii in range(0,number_cnt)] for i in range(number_min, number_max + 1)]
+        number_times = [inf for i in range(number_min, number_max + 1)]
+        left_items = (number_max - number_min + 1) * number_cnt
+        cur.execute('SELECT `lottery_number`.`number`, `lottery_number`.`place`, `lottery`.`time`, `lottery`.`id` FROM `lottery_number`, `lottery` WHERE `lottery_number`.`lottery_id` = `lottery`.`id` ORDER BY `lottery`.`time` DESC')
+        current_time = -1
+        current_timestamp = 0
+        while True:
+            record = cur.fetchone()
+            if record is None: break
+            number = int(record[0])
+            place = int(record[1])
+            timestamp = int(record[2])
+            if timestamp != current_timestamp:
+                current_time += 1
+                current_timestamp = timestamp
+            if place_number_times[place][number] == inf:
+                place_number_times[place][number] = current_time
+                number_place_times[number][place] = current_time
+                if number_times[number] == inf: number_times[number] = current_time
+                left_items -= 1
+            if left_items == 0: break
+        print number_times
         self.closeConnection((conn, cur), True)
         return {
             "number_min": number_min,
